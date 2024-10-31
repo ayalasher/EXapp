@@ -1,15 +1,35 @@
 import { Text, View , StyleSheet} from "react-native";
-import addicon from "../icons/addicon1";
+import Addbutton from "../Buttons/add";
+import { useState } from "react";
 
-export default function Recent({navigation}) {
+
+
+export default function Recent({navigation,route}) {
+
+    // let expensedata = route.params.expensesdata ; 
+
+    const [expenses,setexpenses] = useState([])
+
     function  addiconhandler() {
         navigation.navigate('Add expense',{})
-        return  <addicon addiconhandler={addiconhandler} />
     }
+
+
+
     return <View style={styles.rootcontainer} >
-        <Text>Recent screen</Text>
+        <View style={styles.container1} >
+        <Text style={styles.txtxt} >Add expense </Text>
+        <Addbutton addexpense={addiconhandler} />
+        </View>
+
+        <View>
+            <Text></Text>
+        </View>
+       
+        {/* <addicon funtionhandle={addiconhandler} /> */}
     </View>
 }
+
 
 
 const styles = StyleSheet.create({
@@ -17,5 +37,16 @@ const styles = StyleSheet.create({
         flex:1,
         marginHorizontal:25,
         marginVertical:30, 
+    },
+    container1:{
+        flexDirection:"row",
+        justifyContent:"center",
+        alignItems:"center"
+    },
+    txtxt:{
+        textAlign:"left",
+        fontSize:25,
+        fontWeight:"900",
+        marginRight:40
     }
 })

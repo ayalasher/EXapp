@@ -1,9 +1,17 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
+import Recent from '../Screens/Recent';
 
 import { Pressable, View , StyleSheet } from "react-native";
 
-export default function addicon({addiconhandler}) {
-    return <Pressable onPress={addiconhandler} style={styles.rootpressable} android_ripple={{color:"grey"}} >
+
+
+
+export default function Addicon() {
+    const alert12 = ()=>{
+        alert("Hello there")
+    }
+
+    return <Pressable onPress={alert12} style={styles.rootpressable} android_ripple={{color:"grey"}} >
         <View>
         <Ionicons name="add" size={24} color="black" />
         </View>
