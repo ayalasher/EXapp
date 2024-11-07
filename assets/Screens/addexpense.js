@@ -1,12 +1,28 @@
-import { Text, View , StyleSheet , TextInput, Button } from "react-native";
+import { Text, View , StyleSheet , TextInput, Button, FlatList } from "react-native";
 import { useState } from "react";
 import Addexpensebtn from "../Buttons/addexpens";
+import { DateTimePickerAndroid}  from '@react-native-community/datetimepicker'
 
 export default function Addexpense({navigation}) {
     const [inputhandler,setinputhandler] = useState("")
     const [expenses,setexpenses] = useState([])
     const [date,setdate] = useState("")
+    const [showpicker , setshowpicker] = useState(false)
     const [amount,setamount] = useState("")
+
+
+    let alldetails = {}
+
+
+    function expensesfunction(itemdata){
+        return <View>
+            <View>
+                <Text> {itemdata.item.inputhandler} </Text>
+                <Text> {itemdata.item.amount} </Text>
+            </View>
+            <Text> {itemdata.item.date} </Text>
+        </View>
+    }
 
 
     // handle text input
@@ -18,19 +34,26 @@ export default function Addexpense({navigation}) {
     }
 
     const dateinputhandler = (text)=>{
-
+        setdate(text)
+        console.log(date);
+        
     }
 
     const amountinputhanlder = (text)=>{
-
+        setamount(text)
+        console.log(amount);
+        
     }
 
+    // Set expenses data
     const setexpenseshandler = ()=>{
         setinputhandler("")
-        setexpenses((currentitems)=>[...currentitems,inputhandler])
-        navigation.navigate("Expenses",{
-            expensesdata:expenses
-        });
+        setdate("")
+        setamount("")
+        setexpenses((currentitems)=>[...currentitems, inputhandler,date,amount])
+        // navigation.navigate("Expenses",{
+        //     expensesdata:expenses , 
+        // });
     }
 
 
@@ -45,19 +68,31 @@ export default function Addexpense({navigation}) {
 
                <TextInput 
                 style={styles.inputtxt}
-                placeholder="Date : "
+                placeholder="Date: YYYY-MM-DD "
                 onChangeText={dateinputhandler}
+                value={date}
                 />
+                {/* <DateTimePickerAndroid 
+                mode="date"
+                display="spinner"
+                value={date}
+                 /> */}
 
                <TextInput 
                 style={styles.inputtxt}
                 placeholder="Amount : "
                 onChangeText={amountinputhanlder}
                 keyboardType="number-pad"
+                value={amount}
                 />
                 <Addexpensebtn onPress={setexpenseshandler} >Save</Addexpensebtn>
 
-                <Text>{expenses} </Text>
+
+                <View style={styles.moretxtcontainer} >
+                  <Text style={styles.moretxt} key={expenses.date} >{expenses} </Text>
+                </View>
+                
+                <FlatList data={expenses} renderItem={expensesfunction} keyExtractor={(item)=>item.inputhandler} />
            </View>
         
 
@@ -84,5 +119,14 @@ const styles = StyleSheet.create({
         flexDirection:"column",
         alignItems:"center",
         width:"90%"
+    },
+    moretxt:{
+        paddingVertical:20,
+        paddingHorizontal:20,
+        marginVertical:20,
+        marginHorizontal:20, 
+    },
+    moretxtcontainer:{
+        flexDirection:"column"
     }
 })
